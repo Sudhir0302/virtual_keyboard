@@ -1,6 +1,6 @@
 const WebSocket=require('ws');
 
-const server=new WebSocket.Server({port: 3333});
+const server=new WebSocket.Server({port: 8080});
 
 server.on('connection',(socket) =>{
     console.log('A client connected');
@@ -14,4 +14,4 @@ server.on('connection',(socket) =>{
     });
 });
 
-console.log('server runnning on port 3333');
+console.log('server runnning on port 8080');

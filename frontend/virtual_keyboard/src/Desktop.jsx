@@ -4,21 +4,37 @@ const Desktop = () => {
 
     const[input,setInput]=useState('');
 
-    useEffect(() =>{
-        const socket= new WebSocket('ws://192.168.38.51:3333');
+    const localWebSocketUrl = 'ws://localhost:8080/keyboard';
+   const remoteWebSocketUrl = 'ws://192.168.38.51:8080/keyboard';
+        // const remoteWebSocketUrl = 'ws://10.1.11.72:8080/keyboard';
+    // Use OR operator to choose WebSocket URL
+    const socketUrl = window.location.hostname === 'localhost' ? localWebSocketUrl : remoteWebSocketUrl;
 
-        socket.onmessage =(event)=>{
-            const msg=JSON.parse(event.data);
-            if(msg.key==='BACKSPACE'){
-                setInput((prevInput) => prevInput.slice(0, -1));
-            }
-            else if(msg.key==='SPACE'){
-              setInput((prevInput)=>prevInput+' ');
-            }
-            else{
-                setInput((prevInput)=>prevInput+msg.key);
-            }
-        };
+    useEffect(() =>{
+        const socket= new WebSocket(socketUrl);
+
+        socket.onmessage = (event) => {
+          // Split messages by newline
+          const messages = event.data.split('\n');
+      
+          messages.forEach((message) => {
+              if (message.trim()) { // Check if the message is not empty
+                  try {
+                      const msg = JSON.parse(message);
+                      console.log(msg)
+                      if (msg.key === 'BACKSPACE') {
+                          setInput((prevInput) => prevInput.slice(0, -1));
+                      } else if (msg.key === 'SPACE') {
+                          setInput((prevInput) => prevInput + ' ');
+                      } else {
+                          setInput((prevInput) => prevInput + msg.key);
+                      }
+                  } catch (error) {
+                      console.error('Error parsing message:', error);
+                  }
+              }
+          });
+      };
 
         return ()=>{
             socket.close();

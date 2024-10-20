@@ -11,8 +11,15 @@ const Mobile = () => {
   const [cap,setCap]=useState(false);
   const [isnum,setIsNum]=useState(false);
 
+  const localWebSocketUrl = 'ws://localhost:8080/keyboard';
+  const remoteWebSocketUrl = 'ws://192.168.38.51:8080/keyboard';
+  // const remoteWebSocketUrl = 'ws://10.1.11.72:8080/keyboard';
+
+    // Use OR operator to choose WebSocket URL
+  const socketUrl = window.location.hostname === 'localhost' ? localWebSocketUrl : remoteWebSocketUrl;
+
   useEffect(() => {
-    const socket = new WebSocket('ws://192.168.38.51:3333');
+    const socket = new WebSocket(socketUrl);
     setWs(socket);
 
     return () => {
@@ -70,7 +77,7 @@ const Mobile = () => {
               <button 
               key={index}
               onClick={() => handleKeyPress(d)}
-              className="border-2 border-black w-8 h-8 hover:bg-slate-700 hover:text-white"
+              className="border-2 border-black w-8 h-8 hover:bg-slate-700 hover:text-white bg-green-300"
               >
                 {d}
               </button>
@@ -82,7 +89,7 @@ const Mobile = () => {
             <button
               key={index}
               onClick={() => handleKeyPress(d)}
-              className="border-2 border-black w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-slate-700 hover:text-white"
+              className="border-2 bg-sky-300 border-black w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-slate-700 hover:text-white"
             >
               {d}
             </button>
@@ -93,7 +100,7 @@ const Mobile = () => {
             <button
               key={index}
               onClick={() => handleKeyPress(d)}
-              className="border-2 border-black w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-slate-700 hover:text-white"
+              className="border-2 bg-sky-300 border-black w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-slate-700 hover:text-white"
             >
               {d}
             </button>
@@ -104,7 +111,7 @@ const Mobile = () => {
             <button
               key={index}
               onClick={() => handleKeyPress(d)}
-              className="border-2 border-black w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-slate-700 hover:text-white"
+              className="border-2 bg-sky-300 border-black w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-slate-700 hover:text-white"
             >
               {d}
             </button>

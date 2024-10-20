@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Test Client</h1>
+    <textarea id="output" readonly></textarea>
+    <input type="text" id="input" placeholder="Type a message..." />
+    <button id="send">Send</button>
+
+    <script>
+        const socket = new WebSocket('ws://localhost:8080/keyboard');
+
+        socket.onopen = function() {
+            console.log('WebSocket connection established.');
+        };
+
+        socket.onmessage = function(event) {
+            const output = document.getElementById('output');
+            output.value += event.data + '\n'; // Append received message
+        };
+
+        document.getElementById('send').onclick = function() {
+            const input = document.getElementById('input');
+            socket.send(input.value); // Send the input message
+            input.value = ''; // Clear input field
+        };
+
+        socket.onclose = function() {
+            console.log('WebSocket connection closed.');
+        };
+    </script>
+</body>
+</html>
